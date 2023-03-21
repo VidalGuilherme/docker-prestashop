@@ -17,7 +17,7 @@ docker-compose up -d --build
 * use these credentials 
     * server: mysql
     * database: prestashop
-    * user: prestashop
+    * user: root
     * password: prestashoppass
 
 ### When install is finished do some clean-up:
