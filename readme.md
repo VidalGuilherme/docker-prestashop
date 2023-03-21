@@ -30,6 +30,12 @@ mv admin/ admin12345/
 
 exit
 ```
+
+### Now you have all access
+
+* store: http://localhost:8585
+* admin panel: http://localhost:8585/admin12345
+
 ### Restart your containers
 
 ```shell
