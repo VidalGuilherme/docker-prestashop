@@ -1,0 +1,17 @@
+db-data/
+db-logs/
+.idea/
+
+src/*
+
+!src/modules
+src/modules/*
+!src/modules/Your_Modules_Here.txt
+
+!src/override
+src/override/*
+!src/override/Your_Override_Here.txt
+
+!src/themes
+src/themes/*
+!src/themes/Your_Themes_Here.txt

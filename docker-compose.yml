@@ -1,0 +1,70 @@
+version: "3"
+
+volumes:
+  modules:
+  themes:
+  override:
+  db-data:
+  db-logs:
+
+services:
+  prestashop:
+    image: prestashop/prestashop:1.7
+    container_name: prestashop-cont
+    networks:
+      myprestashop:
+    ports:
+      - 8585:80
+    links:
+      - mysql:mysql
+    depends_on:
+      - mysql
+    volumes:
+      - ./src/modules:/var/www/html/modules
+      - ./src/themes:/var/www/html/themes
+      - ./src/override:/var/www/html/override
+    environment:
+      - PS_DEV_MODE=1
+      - DB_SERVER=mysql
+      - DB_USER=${DB_USERNAME}
+      - DB_PASSWD=${DB_PASSWORD}
+      - DB_NAME=${DB_DATABASE}
+      - PS_INSTALL_AUTO=0
+
+  mysql:
+    image: mysql:5.7
+    container_name: ${PROJECT_NAME}-mysql
+    networks:
+      myprestashop:
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db-data:/var/lib/mysql
+      - ./db-logs:/var/log/mysql
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_USER=${DB_USERNAME}
+#    restart: always
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    networks:
+      myprestashop:
+    links:
+      - mysql:mysql
+    ports:
+      - 1235:80
+    depends_on:
+      - mysql
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USERNAME}
+      - PMA_PASSWORD=${DB_PASSWORD}
+
+networks:
+  myprestashop:
+    external: false
+
+# Original: https://stackoverflow.com/a/62088287
